@@ -7,6 +7,7 @@ signal eaten(value)
 
 @onready var anim = $AnimatedSprite2D
 @export var type: Type = Type.REGULAR
+var was_eaten = false
 
 func _ready() -> void:
 	match type:
@@ -18,9 +19,12 @@ func _ready() -> void:
 			anim.play("Rare")
 
 func _on_body_entered(body: Node2D) -> void:
+	if was_eaten:
+		return
 	print(body.name)
 	if body.name == "Player":
 		eaten.emit(type)
+		was_eaten = true
 		anim.play("Collected")
 		await anim.animation_finished
 		queue_free()

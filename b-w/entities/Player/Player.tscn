@@ -46,3 +46,7 @@ shape = SubResource("RectangleShape2D_q3lat")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 collide_with_areas = true
+
+[node name="TrackRayCast2D" type="RayCast2D" parent="."]
+collision_mask = 2
+collide_with_areas = true

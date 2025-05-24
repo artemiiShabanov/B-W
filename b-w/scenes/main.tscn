@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://dk80xnogirw8e"]
+[gd_scene load_steps=10 format=4 uid="uid://dk80xnogirw8e"]
 
 [ext_resource type="Script" uid="uid://drjuvpmm7vcu8" path="res://scenes/main.gd" id="1_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://crewb771rpf3i" path="res://assets/sokoban_tilesheet.png" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://bpcmo6ayr46c4" path="res://entities/Player/Player.tscn" id="2_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://chgu04ru2o45i" path="res://Track/Track.tscn" id="4_jyhfs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ig7tw"]
 texture = ExtResource("1_sugp2")
@@ -131,6 +132,10 @@ font_size = 60
 font_size = 60
 font_color = Color(1, 1, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
+font_size = 50
+font_color = Color(1, 0, 0, 1)
+
 [node name="main" type="Node2D"]
 script = ExtResource("1_jyhfs")
 
@@ -158,3 +163,35 @@ offset_right = 887.0
 offset_bottom = 132.0
 text = "HighScore"
 label_settings = SubResource("LabelSettings_jyhfs")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 178.0
+offset_top = 243.0
+offset_right = 882.0
+offset_bottom = 270.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="HealthContainer" type="HBoxContainer" parent="."]
+offset_left = 175.0
+offset_top = 319.0
+offset_right = 868.0
+offset_bottom = 442.0
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = 434.0
+offset_top = 303.0
+offset_right = 526.0
+offset_bottom = 372.0
+text = "3"
+label_settings = SubResource("LabelSettings_tbgi4")
+
+[node name="Track" parent="." instance=ExtResource("4_jyhfs")]
+position = Vector2(612, 1000)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

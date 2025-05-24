@@ -8,19 +8,36 @@ var cell_size = 64
 var prev_r = 15
 var prev_c = 7
 
+#var heart_image = load("res://assets/h.jpg")
+
+var timer_progression = 0.1
+
 var max_score: int
 var current_score = 0
+var health = 3
+
+#var is_slow_mo = false
+#var clow_mo_timer
+
 var coin_scene = preload("res://entities/Coin/Coin.tscn")
 var rng = RandomNumberGenerator.new()
 
 @onready var player = $Player
 @onready var hScoreLabel = $HighScore
 @onready var scoreLabel = $Score
+@onready var healthLabel = $HealthLabel
+@onready var progress_bar = $ProgressBar
+@onready var timer = $Timer
+@onready var healthStack = $HealthContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	max_score = SaveLoad.load_highscore()
+	_update_lives()
 	_create_coin()
+	
+func _process(delta):
+	progress_bar.value = timer.time_left / timer.wait_time * 100
 	
 func _create_coin() -> void:
 	var coin = coin_scene.instantiate()
@@ -55,3 +72,24 @@ func _on_coin_eaten(value: int) -> void:
 	scoreLabel.text = str(current_score)
 	hScoreLabel.text = str(max_score)
 	_create_coin()
+	
+	timer.wait_time = timer.wait_time - timer_progression
+	timer.start()
+
+
+func _on_timer_timeout() -> void:
+	health -= 1
+	_update_lives()
+
+func _update_lives() -> void:
+	healthLabel.text = str(health)
+	#for ch in healthStack.get_children():
+		#healthStack.remove_child(ch)
+	#for i in health:
+		#var texture = ImageTexture.new()
+		#var heart_image = Image.new()
+		#heart_image.load("res://assets/h.jpg")
+		#texture.create_from_image(heart_image)
+		#var tr = TextureRect.new()
+		#tr.texture = texture
+		#healthStack.add_child(tr)
