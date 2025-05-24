@@ -1,0 +1,87 @@
+[gd_scene load_steps=11 format=3 uid="uid://5oitw7n103ki"]
+
+[ext_resource type="Script" uid="uid://2q36dkqnuiy1" path="res://entities/Coin/Coin.gd" id="1_5u43v"]
+[ext_resource type="Texture2D" uid="uid://crewb771rpf3i" path="res://assets/sokoban_tilesheet.png" id="2_nfon1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fd6c1"]
+atlas = ExtResource("2_nfon1")
+region = Rect2(768, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gcuis"]
+atlas = ExtResource("2_nfon1")
+region = Rect2(768, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5l8q"]
+atlas = ExtResource("2_nfon1")
+region = Rect2(768, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfon1"]
+atlas = ExtResource("2_nfon1")
+region = Rect2(768, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cquhh"]
+atlas = ExtResource("2_nfon1")
+region = Rect2(768, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwmxp"]
+atlas = ExtResource("2_nfon1")
+region = Rect2(768, 256, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mp0hw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fd6c1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gcuis")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5l8q")
+}],
+"loop": false,
+"name": &"Collected",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfon1")
+}],
+"loop": true,
+"name": &"Rare",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cquhh")
+}],
+"loop": true,
+"name": &"Regular",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwmxp")
+}],
+"loop": true,
+"name": &"Uncommon",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rmlog"]
+size = Vector2(64, 64)
+
+[node name="Coin" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_5u43v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_mp0hw")
+animation = &"Regular"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rmlog")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,12 +1,12 @@
-extends Area2D
+extends CharacterBody2D
 
 var animation_speed = 5
 var tile_size = 64
 var moving = false
 var inputs = {"right": Vector2.RIGHT,
-			"left": Vector2.LEFT,
-			"up": Vector2.UP,
-			"down": Vector2.DOWN}
+	"left": Vector2.LEFT,
+	"up": Vector2.UP,
+	"down": Vector2.DOWN}
 			
 			
 @onready var ray = $RayCast2D
