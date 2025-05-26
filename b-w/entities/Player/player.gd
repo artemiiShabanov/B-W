@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
+signal will_move(from_position)
+
 var animation_speed = 5
+var fast_animation_speed = 10
 var tile_size = 64
 var moving = false
 var inputs = {"right": Vector2.RIGHT,
@@ -11,6 +14,8 @@ var inputs = {"right": Vector2.RIGHT,
 			
 @onready var ray = $RayCast2D
 @onready var track_ray = $TrackRayCast2D
+@onready var whoosh_sound = $WhooshSound
+@onready var tick_sound = $TickSound
 
 func _ready():
 	position = position.snapped(Vector2.ONE * tile_size)
@@ -19,28 +24,40 @@ func _ready():
 func _input(event):
 	for key in inputs.keys():
 		if Input.is_action_just_pressed(key):
-			handle_dir(key)
+			track_ray.target_position = inputs[key] * tile_size
+			track_ray.force_raycast_update()
+			if track_ray.is_colliding():
+				handle_dir(key, true)
+			else:
+				handle_dir(key, false)
 
 func _physics_process(delta: float) -> void:
 	for key in inputs.keys():
 		if Input.is_action_pressed(key):
 			track_ray.target_position = inputs[key] * tile_size
 			track_ray.force_raycast_update()
-			print(track_ray.is_colliding())
 			if track_ray.is_colliding():
-				handle_dir(key)
+				handle_dir(key, true)
 
-func handle_dir(dir):
+func handle_dir(dir, fast):
 	if moving:
 		return
-	move(dir)
+	if fast:
+		tick_sound.pitch_scale = 1.5
+	else:
+		tick_sound.pitch_scale = 1
+	tick_sound.play()
+	move(dir, fast)
 
-func move(dir):
+func move(dir, fast):
 	ray.target_position = inputs[dir] * tile_size
 	ray.force_raycast_update()
 	if !ray.is_colliding():
+		will_move.emit(global_position)
 		var tween = get_tree().create_tween()
-		tween.tween_property(self, "position", position + inputs[dir] * tile_size, 1.0/animation_speed).set_trans(Tween.TRANS_SINE)
+		var new_pos = position + inputs[dir] * tile_size
+		var time = 1.0 / (fast_animation_speed if fast else animation_speed)
+		tween.tween_property(self, "position", new_pos, time).set_trans(Tween.TRANS_SINE)
 		moving = true
 		#$AnimationPlayer.play(dir)
 		await tween.finished

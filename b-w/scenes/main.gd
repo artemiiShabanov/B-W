@@ -20,6 +20,8 @@ var health = 3
 #var clow_mo_timer
 
 var coin_scene = preload("res://entities/Coin/Coin.tscn")
+var track_scene = preload("res://entities/Track/Track.tscn")
+
 var rng = RandomNumberGenerator.new()
 
 @onready var player = $Player
@@ -29,12 +31,14 @@ var rng = RandomNumberGenerator.new()
 @onready var progress_bar = $ProgressBar
 @onready var timer = $Timer
 @onready var healthStack = $HealthContainer
+@onready var bgMusic = $BGMusic
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	max_score = SaveLoad.load_highscore()
 	_update_lives()
 	_create_coin()
+	bgMusic.play()
 	
 func _process(delta):
 	progress_bar.value = timer.time_left / timer.wait_time * 100
@@ -63,6 +67,7 @@ func _create_coin() -> void:
 	add_child(coin)
 
 func _on_coin_eaten(value: int) -> void:
+	bgMusic.pitch_scale = 1
 	current_score += value
 	if current_score > max_score:
 		max_score = current_score
@@ -79,6 +84,7 @@ func _on_coin_eaten(value: int) -> void:
 
 func _on_timer_timeout() -> void:
 	health -= 1
+	bgMusic.pitch_scale = 0.5
 	_update_lives()
 
 func _update_lives() -> void:
@@ -93,3 +99,9 @@ func _update_lives() -> void:
 		#var tr = TextureRect.new()
 		#tr.texture = texture
 		#healthStack.add_child(tr)
+
+
+func _on_player_will_move(from_position: Variant) -> void:
+	var track = track_scene.instantiate()
+	track.position = from_position
+	add_child(track)

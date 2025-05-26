@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://drjuvpmm7vcu8" path="res://scenes/main.gd" id="1_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://crewb771rpf3i" path="res://assets/sokoban_tilesheet.png" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://bpcmo6ayr46c4" path="res://entities/Player/Player.tscn" id="2_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://chgu04ru2o45i" path="res://Track/Track.tscn" id="4_jyhfs"]
+[ext_resource type="AudioStream" uid="uid://dj0homrp0lubn" path="res://assets/Shadow Circuit.mp3" id="4_jyhfs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ig7tw"]
 texture = ExtResource("1_sugp2")
@@ -191,7 +191,8 @@ offset_bottom = 372.0
 text = "3"
 label_settings = SubResource("LabelSettings_tbgi4")
 
-[node name="Track" parent="." instance=ExtResource("4_jyhfs")]
-position = Vector2(612, 1000)
+[node name="BGMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jyhfs")
 
+[connection signal="will_move" from="Player" to="." method="_on_player_will_move"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

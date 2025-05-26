@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dj0homrp0lubn"
+path="res://.godot/imported/Shadow Circuit.mp3-47e445aecb328e433952e8540451c552.mp3str"
+
+[deps]
+
+source_file="res://assets/Shadow Circuit.mp3"
+dest_files=["res://.godot/imported/Shadow Circuit.mp3-47e445aecb328e433952e8540451c552.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
