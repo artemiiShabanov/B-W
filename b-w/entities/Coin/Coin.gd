@@ -1,7 +1,7 @@
 extends Area2D
 class_name Coin
 
-enum Type {REGULAR = 50, UNCOMMON = 3, RARE = 10}
+enum Type {REGULAR = 1, UNCOMMON = 3, RARE = 10}
 
 signal eaten(value)
 
@@ -21,7 +21,7 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if was_eaten:
 		return
-	print(body.name)
+	#print(body.name)
 	if body.name == "Player":
 		eaten.emit(type)
 		was_eaten = true

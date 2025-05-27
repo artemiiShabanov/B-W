@@ -21,15 +21,15 @@ func _ready():
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
 	
-func _input(event):
-	for key in inputs.keys():
-		if Input.is_action_just_pressed(key):
-			track_ray.target_position = inputs[key] * tile_size
-			track_ray.force_raycast_update()
-			if track_ray.is_colliding():
-				handle_dir(key, true)
-			else:
-				handle_dir(key, false)
+#func _input(event):
+	#for key in inputs.keys():
+		#if Input.is_action_just_pressed(key):
+			#track_ray.target_position = inputs[key] * tile_size
+			#track_ray.force_raycast_update()
+			#if track_ray.is_colliding():
+				#handle_dir(key, true)
+			#else:
+				#handle_dir(key, false)
 
 func _physics_process(delta: float) -> void:
 	for key in inputs.keys():
@@ -38,6 +38,8 @@ func _physics_process(delta: float) -> void:
 			track_ray.force_raycast_update()
 			if track_ray.is_colliding():
 				handle_dir(key, true)
+			else:
+				handle_dir(key, false)
 
 func handle_dir(dir, fast):
 	if moving:

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvc0g23rjjk83"]
+
+[ext_resource type="Script" uid="uid://d3eutni7wsluc" path="res://Noise/grain.gd" id="1_arv3t"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bd327"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8w3uy"]
+width = 1000
+height = 2000
+noise = SubResource("FastNoiseLite_bd327")
+
+[node name="FilmGrain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.12549)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("NoiseTexture2D_8w3uy")
+script = ExtResource("1_arv3t")

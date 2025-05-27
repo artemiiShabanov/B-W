@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://b760mf2qneedu"]
+
+[ext_resource type="Texture2D" uid="uid://crewb771rpf3i" path="res://assets/sokoban_tilesheet.png" id="1_uncvo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ni3qb"]
+atlas = ExtResource("1_uncvo")
+region = Rect2(512, 448, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wuwcj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ni3qb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_t3557"]
+polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uncvo"]
+size = Vector2(64, 64)
+
+[node name="Wall" type="StaticBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wuwcj")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_t3557")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_uncvo")
