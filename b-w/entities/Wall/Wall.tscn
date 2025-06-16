@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://b760mf2qneedu"]
 
-[ext_resource type="Texture2D" uid="uid://crewb771rpf3i" path="res://assets/sokoban_tilesheet.png" id="1_uncvo"]
+[ext_resource type="Texture2D" uid="uid://uw3dg2mlk04w" path="res://assets/tset.png" id="1_uncvo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ni3qb"]
 atlas = ExtResource("1_uncvo")
-region = Rect2(512, 448, 64, 64)
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wuwcj"]
 animations = [{
@@ -26,6 +26,7 @@ size = Vector2(64, 64)
 [node name="Wall" type="StaticBody2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_wuwcj")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]

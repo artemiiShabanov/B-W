@@ -1,7 +1,7 @@
 extends Area2D
 class_name Coin
 
-enum Type {REGULAR = 1, UNCOMMON = 3, RARE = 10}
+enum Type {LIFE = -1, REGULAR = 1, UNCOMMON = 3, RARE = 10}
 
 signal eaten(value)
 
@@ -17,6 +17,8 @@ func _ready() -> void:
 			anim.play("Uncommon")
 		Type.RARE:
 			anim.play("Rare")
+		Type.LIFE:
+			anim.play("Life")
 
 func _on_body_entered(body: Node2D) -> void:
 	if was_eaten:
