@@ -54,10 +54,10 @@ func move(dir, fast):
 	if !ray.is_colliding():
 		moving = true
 		if fast:
-			tick_sound.pitch_scale = 1.5
+			whoosh_sound.pitch_scale = 0.8
 		else:
-			tick_sound.pitch_scale = 1
-		tick_sound.play()
+			whoosh_sound.pitch_scale = 0.6
+		whoosh_sound.play()
 		if !fast:
 			anim.play("transition")
 			await anim.animation_finished

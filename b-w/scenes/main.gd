@@ -50,6 +50,7 @@ var rng = RandomNumberGenerator.new()
 @onready var bgMusic = $BGMusic
 @onready var grain = $FilmGrain
 @onready var palyer_light = $Player/PointLight2D
+@onready var palyer_light_2 = $Player/PointLight2D2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -62,7 +63,8 @@ func _ready() -> void:
 	grain.z_index = 1000
 	
 func _process(delta):
-	progress_bar.value = timer.time_left / timer.wait_time * 100
+	palyer_light.energy = max(timer.time_left / timer.wait_time, 0.2)
+	palyer_light_2.energy = max(timer.time_left / timer.wait_time, 0.2)
 	
 func _generate_walls() -> void:
 	# up
@@ -126,6 +128,7 @@ func pos(c, r) -> Vector2:
 
 func _on_coin_eaten(value: int) -> void:
 	bgMusic.volume_db = 0
+	palyer_light.color = Color.WHITE
 	if value == -1:
 		health += 1
 		_update_lives()
@@ -145,6 +148,7 @@ func _on_coin_eaten(value: int) -> void:
 func _on_timer_timeout() -> void:
 	health -= 1
 	bgMusic.volume_db = -15
+	palyer_light.color = Color.RED
 	_update_lives()
 
 func _update_lives() -> void:
@@ -168,3 +172,7 @@ func _on_player_will_move(from_position: Variant) -> void:
 	var track = track_scene.instantiate()
 	track.position = from_position
 	add_child(track)
+
+
+func _on_bg_music_finished() -> void:
+	bgMusic.play()

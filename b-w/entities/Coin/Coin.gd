@@ -6,6 +6,7 @@ enum Type {LIFE = -1, REGULAR = 1, UNCOMMON = 3, RARE = 10}
 signal eaten(value)
 
 @onready var anim = $AnimatedSprite2D
+@onready var sound = $Sound
 @export var type: Type = Type.REGULAR
 var was_eaten = false
 
@@ -24,6 +25,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if was_eaten:
 		return
 	#print(body.name)
+	sound.play()
 	if body.name == "Player":
 		eaten.emit(type)
 		was_eaten = true

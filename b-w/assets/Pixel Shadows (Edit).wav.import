@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://rmhhluq5m5dg"
+path="res://.godot/imported/Pixel Shadows (Edit).wav-719468b6380ec7f7a9b79f4bebc80b8d.sample"
+
+[deps]
+
+source_file="res://assets/Pixel Shadows (Edit).wav"
+dest_files=["res://.godot/imported/Pixel Shadows (Edit).wav-719468b6380ec7f7a9b79f4bebc80b8d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

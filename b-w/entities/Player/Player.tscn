@@ -283,7 +283,8 @@ collide_with_areas = true
 
 [node name="WhooshSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_pco1l")
-volume_db = -13.586
+volume_db = -10.0
+pitch_scale = 0.8
 
 [node name="TickSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_k7roy")

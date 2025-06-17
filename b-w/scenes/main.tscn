@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://drjuvpmm7vcu8" path="res://scenes/main.gd" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bpcmo6ayr46c4" path="res://entities/Player/Player.tscn" id="2_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://uw3dg2mlk04w" path="res://assets/tset.png" id="2_tefeu"]
-[ext_resource type="AudioStream" uid="uid://dj0homrp0lubn" path="res://assets/Shadow Circuit.mp3" id="4_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://q5uf505wcths" path="res://assets/light.webp" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://bvc0g23rjjk83" path="res://Noise/FilmGrain.tscn" id="5_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://rmhhluq5m5dg" path="res://assets/Pixel Shadows (Edit).wav" id="5_tefeu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ig7tw"]
 texture = ExtResource("2_tefeu")
@@ -153,13 +153,11 @@ position = Vector2(350, 860)
 
 [node name="PointLight2D" type="PointLight2D" parent="Player"]
 position = Vector2(1, 0)
-energy = 0.3
 shadow_color = Color(1, 1, 1, 0)
 texture = ExtResource("4_tefeu")
 height = 1.0
 
 [node name="PointLight2D2" type="PointLight2D" parent="Player"]
-energy = 0.7
 shadow_enabled = true
 texture = ExtResource("4_tefeu")
 
@@ -208,7 +206,7 @@ text = "3"
 label_settings = SubResource("LabelSettings_tbgi4")
 
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_jyhfs")
+stream = ExtResource("5_tefeu")
 
 [node name="FilmGrain" parent="." instance=ExtResource("5_tbgi4")]
 
@@ -222,3 +220,4 @@ texture = ExtResource("4_tefeu")
 
 [connection signal="will_move" from="Player" to="." method="_on_player_will_move"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="finished" from="BGMusic" to="." method="_on_bg_music_finished"]
