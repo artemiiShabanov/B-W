@@ -43,10 +43,11 @@ var rng = RandomNumberGenerator.new()
 @onready var player = $Player
 @onready var hScoreLabel = $HighScore
 @onready var scoreLabel = $Score
-@onready var healthLabel = $HealthLabel
 @onready var progress_bar = $ProgressBar
+@onready var candle1 = $Candle1
+@onready var candle2 = $Candle2
+@onready var candle3 = $Candle3
 @onready var timer = $Timer
-@onready var healthStack = $HealthContainer
 @onready var bgMusic = $BGMusic
 @onready var grain = $FilmGrain
 @onready var palyer_light = $Player/PointLight2D
@@ -60,11 +61,13 @@ func _ready() -> void:
 	_generate_columns()
 	_create_coin()
 	bgMusic.play()
+	update_score()
 	grain.z_index = 1000
 	
 func _process(delta):
-	palyer_light.energy = max(timer.time_left / timer.wait_time, 0.2)
-	palyer_light_2.energy = max(timer.time_left / timer.wait_time, 0.2)
+	var d = timer.time_left / timer.wait_time
+	progress_bar.value = d * 100
+	palyer_light.energy = d
 	
 func _generate_walls() -> void:
 	# up
@@ -128,7 +131,6 @@ func pos(c, r) -> Vector2:
 
 func _on_coin_eaten(value: int) -> void:
 	bgMusic.volume_db = 0
-	palyer_light.color = Color.WHITE
 	if value == -1:
 		health += 1
 		_update_lives()
@@ -137,32 +139,24 @@ func _on_coin_eaten(value: int) -> void:
 		if current_score > max_score:
 			max_score = current_score
 			SaveLoad.save_highscore(max_score)
-		scoreLabel.text = str(current_score)
-		hScoreLabel.text = str(max_score)
-	
+		update_score()
 	_create_coin()
 	timer.wait_time = timer.wait_time - timer_progression
 	timer.start()
 
+func update_score() -> void:
+	scoreLabel.text = str(current_score)
+	hScoreLabel.text = str(max_score)
 
 func _on_timer_timeout() -> void:
 	health -= 1
 	bgMusic.volume_db = -15
-	palyer_light.color = Color.RED
 	_update_lives()
 
 func _update_lives() -> void:
-	healthLabel.text = str(health)
-	#for ch in healthStack.get_children():
-		#healthStack.remove_child(ch)
-	#for i in health:
-		#var texture = ImageTexture.new()
-		#var heart_image = Image.new()
-		#heart_image.load("res://assets/h.jpg")
-		#texture.create_from_image(heart_image)
-		#var tr = TextureRect.new()
-		#tr.texture = texture
-		#healthStack.add_child(tr)
+	candle1.visible = health > 0
+	candle2.visible = health > 1
+	candle3.visible = health > 2
 
 
 func _on_player_will_move(from_position: Variant) -> void:

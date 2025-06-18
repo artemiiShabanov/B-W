@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dk80xnogirw8e"]
+[gd_scene load_steps=14 format=4 uid="uid://dk80xnogirw8e"]
 
 [ext_resource type="Script" uid="uid://drjuvpmm7vcu8" path="res://scenes/main.gd" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bpcmo6ayr46c4" path="res://entities/Player/Player.tscn" id="2_jyhfs"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://q5uf505wcths" path="res://assets/light.webp" id="4_tefeu"]
 [ext_resource type="PackedScene" uid="uid://bvc0g23rjjk83" path="res://Noise/FilmGrain.tscn" id="5_tbgi4"]
 [ext_resource type="AudioStream" uid="uid://rmhhluq5m5dg" path="res://assets/Pixel Shadows (Edit).wav" id="5_tefeu"]
+[ext_resource type="Texture2D" uid="uid://bjqf2arva86y1" path="res://assets/rect.png" id="6_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://dobqm4gsih6c0" path="res://entities/Candle/Candle.tscn" id="8_tipki"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ig7tw"]
 texture = ExtResource("2_tefeu")
@@ -129,15 +131,14 @@ physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_ig7tw")
 
 [sub_resource type="LabelSettings" id="LabelSettings_sugp2"]
-font_size = 60
+font_size = 20
+
+[sub_resource type="SystemFont" id="SystemFont_o6xl0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jyhfs"]
-font_size = 60
+font = SubResource("SystemFont_o6xl0")
+font_size = 20
 font_color = Color(1, 1, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_tbgi4"]
-font_size = 50
-font_color = Color(1, 0, 0, 1)
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_jyhfs")
@@ -161,62 +162,66 @@ height = 1.0
 shadow_enabled = true
 texture = ExtResource("4_tefeu")
 
-[node name="Score" type="Label" parent="."]
-offset_left = 155.0
-offset_top = 39.0
-offset_right = 427.0
-offset_bottom = 146.0
-text = "Score
-"
-label_settings = SubResource("LabelSettings_sugp2")
-
-[node name="HighScore" type="Label" parent="."]
-offset_left = 557.0
-offset_top = 33.0
-offset_right = 887.0
-offset_bottom = 132.0
-text = "HighScore"
-label_settings = SubResource("LabelSettings_jyhfs")
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = 178.0
-offset_top = 243.0
-offset_right = 882.0
-offset_bottom = 270.0
-show_percentage = false
-
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
-[node name="HealthContainer" type="HBoxContainer" parent="."]
-offset_left = 175.0
-offset_top = 319.0
-offset_right = 868.0
-offset_bottom = 442.0
-size_flags_horizontal = 4
-alignment = 1
-
-[node name="HealthLabel" type="Label" parent="."]
-offset_left = 434.0
-offset_top = 303.0
-offset_right = 526.0
-offset_bottom = 372.0
-text = "3"
-label_settings = SubResource("LabelSettings_tbgi4")
-
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_tefeu")
-
-[node name="FilmGrain" parent="." instance=ExtResource("5_tbgi4")]
 
 [node name="Darkness" type="CanvasModulate" parent="."]
 color = Color(0, 0, 0, 1)
 
+[node name="ProgressBar" type="ProgressBar" parent="."]
+z_index = 2
+offset_left = 257.0
+offset_top = 1309.0
+offset_right = 770.0
+offset_bottom = 1320.0
+show_percentage = false
+
+[node name="PointLight2D" type="PointLight2D" parent="ProgressBar"]
+position = Vector2(261.5, 4.99997)
+scale = Vector2(2.20889, 0.0444446)
+texture = ExtResource("6_o6xl0")
+
+[node name="FilmGrain" parent="." instance=ExtResource("5_tbgi4")]
+
+[node name="Score" type="Label" parent="."]
+offset_left = 482.0
+offset_top = 657.0
+offset_right = 538.0
+offset_bottom = 716.0
+text = "Score
+"
+label_settings = SubResource("LabelSettings_sugp2")
+horizontal_alignment = 1
+
+[node name="HighScore" type="Label" parent="."]
+offset_left = 460.0
+offset_top = 687.0
+offset_right = 558.0
+offset_bottom = 767.0
+text = "HighScore"
+label_settings = SubResource("LabelSettings_jyhfs")
+horizontal_alignment = 1
+
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(481, 182)
-scale = Vector2(5.17188, 2.46875)
+position = Vector2(507, 649)
+scale = Vector2(0.8125, 0.835938)
 texture = ExtResource("4_tefeu")
+
+[node name="Candle1" parent="." instance=ExtResource("8_tipki")]
+position = Vector2(454, 634)
+scale = Vector2(1.5, 1.5)
+
+[node name="Candle2" parent="." instance=ExtResource("8_tipki")]
+position = Vector2(506.5, 634.5)
+scale = Vector2(1.5, 1.5)
+
+[node name="Candle3" parent="." instance=ExtResource("8_tipki")]
+position = Vector2(557.5, 634.5)
+scale = Vector2(1.5, 1.5)
 
 [connection signal="will_move" from="Player" to="." method="_on_player_will_move"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
