@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c13ixm1y2wwum"]
+
+[ext_resource type="Script" uid="uid://baqc2pa6thg6w" path="res://entities/SpeedState/speed_state.gd" id="1_iuv4t"]
+
+[node name="SpeedState" type="Node2D"]
+script = ExtResource("1_iuv4t")

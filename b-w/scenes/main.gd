@@ -170,3 +170,7 @@ func _on_player_will_move(from_position: Variant) -> void:
 
 func _on_bg_music_finished() -> void:
 	bgMusic.play()
+
+
+func _on_speed_state_changed_paused_state(paused: bool) -> void:
+	get_tree().paused = paused
