@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://rmhhluq5m5dg" path="res://assets/Pixel Shadows (Edit).wav" id="5_tefeu"]
 [ext_resource type="Texture2D" uid="uid://bjqf2arva86y1" path="res://assets/rect.png" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dobqm4gsih6c0" path="res://entities/Candle/Candle.tscn" id="8_tipki"]
-[ext_resource type="PackedScene" uid="uid://c13ixm1y2wwum" path="res://entities/SpeedState/SpeedState.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" uid="uid://c13ixm1y2wwum" path="res://global/SpeedState/SpeedState.tscn" id="9_85g3d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ig7tw"]
 texture = ExtResource("2_tefeu")
@@ -142,6 +142,8 @@ font_size = 20
 font_color = Color(1, 1, 0, 1)
 
 [node name="main" type="Node2D"]
+position = Vector2(-250, -450)
+scale = Vector2(1.47, 1.47)
 script = ExtResource("1_jyhfs")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

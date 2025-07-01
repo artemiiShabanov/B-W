@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1000
 window/size/viewport_height=2000
+window/stretch/mode="viewport"
+window/handheld/orientation=1
 
 [input]
 
@@ -52,6 +54,11 @@ Pause={
 ]
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
