@@ -52,6 +52,7 @@ var rng = RandomNumberGenerator.new()
 @onready var grain = $FilmGrain
 @onready var palyer_light = $Player/PointLight2D
 @onready var palyer_light_2 = $Player/PointLight2D2
+@onready var pause_menu = $CanvasLayer/PauseMenu
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -174,3 +175,7 @@ func _on_bg_music_finished() -> void:
 
 func _on_speed_state_changed_paused_state(paused: bool) -> void:
 	get_tree().paused = paused
+
+
+func _on_pause_button_pressed() -> void:
+	pause_menu.pause()
