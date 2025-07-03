@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://dk80xnogirw8e"]
+[gd_scene load_steps=15 format=4 uid="uid://dk80xnogirw8e"]
 
 [ext_resource type="Script" uid="uid://drjuvpmm7vcu8" path="res://scenes/main.gd" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bpcmo6ayr46c4" path="res://entities/Player/Player.tscn" id="2_jyhfs"]
@@ -8,7 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://rmhhluq5m5dg" path="res://assets/Pixel Shadows (Edit).wav" id="5_tefeu"]
 [ext_resource type="Texture2D" uid="uid://bjqf2arva86y1" path="res://assets/rect.png" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dobqm4gsih6c0" path="res://entities/Candle/Candle.tscn" id="8_tipki"]
-[ext_resource type="PackedScene" uid="uid://c13ixm1y2wwum" path="res://global/SpeedState/SpeedState.tscn" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://fkdk3hm0segg" path="res://scenes/PauseMenu.tscn" id="10_choun"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ig7tw"]
@@ -227,8 +226,6 @@ scale = Vector2(1.5, 1.5)
 position = Vector2(557.5, 634.5)
 scale = Vector2(1.5, 1.5)
 
-[node name="SpeedState" parent="." instance=ExtResource("9_85g3d")]
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PauseButton" type="Button" parent="CanvasLayer"]
@@ -248,5 +245,4 @@ visible = false
 [connection signal="will_move" from="Player" to="." method="_on_player_will_move"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="finished" from="BGMusic" to="." method="_on_bg_music_finished"]
-[connection signal="changed_paused_state" from="SpeedState" to="." method="_on_speed_state_changed_paused_state"]
 [connection signal="pressed" from="CanvasLayer/PauseButton" to="." method="_on_pause_button_pressed"]

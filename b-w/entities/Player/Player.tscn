@@ -1,9 +1,8 @@
-[gd_scene load_steps=39 format=3 uid="uid://bpcmo6ayr46c4"]
+[gd_scene load_steps=38 format=3 uid="uid://bpcmo6ayr46c4"]
 
 [ext_resource type="Script" uid="uid://bd631csjwdrw7" path="res://entities/Player/player.gd" id="1_xhfnw"]
 [ext_resource type="Texture2D" uid="uid://uw3dg2mlk04w" path="res://assets/tset.png" id="2_pco1l"]
 [ext_resource type="AudioStream" uid="uid://b8v1fv1p5jrph" path="res://assets/whoosh.mp3" id="3_pco1l"]
-[ext_resource type="AudioStream" uid="uid://dbd2qsp4u3txt" path="res://assets/tap.wav" id="4_k7roy"]
 [ext_resource type="PackedScene" uid="uid://txxmq5qf7n7i" path="res://global/TouchHandler/TouchHandler.tscn" id="5_k7roy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_62gbw"]
@@ -270,7 +269,8 @@ script = ExtResource("1_xhfnw")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_8g4oa")
-animation = &"r_transition"
+animation = &"transition"
+autoplay = "stale"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_q3lat")
@@ -286,10 +286,6 @@ collide_with_areas = true
 stream = ExtResource("3_pco1l")
 volume_db = -10.0
 pitch_scale = 0.8
-
-[node name="TickSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_k7roy")
-volume_db = 10.306
 
 [node name="TouchHandler" parent="." instance=ExtResource("5_k7roy")]
 

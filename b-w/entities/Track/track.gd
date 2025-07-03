@@ -2,7 +2,6 @@ extends Area2D
 class_name Track
 
 @onready var timer = $Timer
-@onready var light = $Timer
 
 func _ready() -> void:
 	var tween = get_tree().create_tween()

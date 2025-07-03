@@ -55,6 +55,7 @@ animations = [{
 
 [node name="Candle" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_ehmrk")
+autoplay = "default"
 frame_progress = 0.114417
 
 [node name="PointLight2D" type="PointLight2D" parent="."]

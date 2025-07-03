@@ -2,7 +2,7 @@ extends Node2D
 
 # Constants for swipe detection
 const SWIPE_THRESHOLD = 50  # Minimum distance for a swipe to be recognized
-const HOLD_THRESHOLD = 0.5  # Minimum time in seconds for a hold to be recognized
+const HOLD_THRESHOLD = 0.2  # Minimum time in seconds for a hold to be recognized
 
 # Signals for swipe and hold gestures
 signal swipe_detected(direction)

@@ -2,9 +2,11 @@ extends CharacterBody2D
 
 signal will_move(from_position)
 
+var tile_size = 64
+
 var animation_speed = 5
 var fast_animation_speed = 10
-var tile_size = 64
+
 var inputs = {"right": Vector2.RIGHT,
 	"left": Vector2.LEFT,
 	"up": Vector2.UP,
@@ -13,24 +15,39 @@ var states = {"right": State.RIGHT,
 	"left": State.LEFT,
 	"up": State.UP,
 	"down": State.DOWN}
+	
+var animations = {State.RIGHT: "right",
+	State.LEFT: "left",
+	State.UP: "up",
+	State.DOWN: "down",
+	State.STALE: "stale",
+	State.TRANSITION: "transition",
+	State.RTRANSITION: "r_transition"}
 
 enum State {STALE, TRANSITION, RTRANSITION, LEFT, UP, RIGHT, DOWN}
 
-var state: State = State.STALE
+var _state: State = State.STALE
+var state: State:
+	get:
+		return _state
+	set(value):
+		_state = value
+		anim.play(animations[value])
+
 var sliding_dir_input = null
 var is_sliding = false
 
 @onready var ray = $RayCast2D
 @onready var track_ray = $TrackRayCast2D
 @onready var whoosh_sound = $WhooshSound
-@onready var tick_sound = $TickSound
 @onready var anim = $AnimatedSprite2D
 
 func _ready():
+	# set initial position
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
-	anim.play("stale")
 
+# keyboard input
 func _input(event):
 	for dir in inputs.keys():
 		if Input.is_action_just_pressed(dir):
@@ -39,39 +56,35 @@ func _input(event):
 func _physics_process(delta: float) -> void:
 	if !is_sliding && sliding_dir_input != null:
 		await slide(sliding_dir_input)
-	
-	for dir in inputs.keys():
-		if Input.is_action_pressed(dir):
-			sliding_dir_input = dir
 
 func _on_touch_handler_hold_detected(dir: Variant) -> void:
-	print(dir)
 	sliding_dir_input = dir
 
 func _on_touch_handler_swipe_detected(dir: Variant) -> void:
 	step(dir)
 
 func _on_touch_handler_release_detected() -> void:
-	sliding_dir_input = null
-	stop_slide()
+	if sliding_dir_input != null:
+		sliding_dir_input = null
+		stop_slide()
 
 func step(dir):
+	is_sliding = true
 	if state != State.STALE || !can_move_in(dir):
+		is_sliding = false
 		return
 	
 	state = State.TRANSITION
-	anim.play("transition")
 	await anim.animation_finished
 	
 	state = states[dir]
 	await move(dir, false)
 	
 	state = State.RTRANSITION
-	anim.play("r_transition")
 	await anim.animation_finished
 	
-	anim.play("stale")
 	state = State.STALE
+	is_sliding = false
 
 func slide(dir):
 	if !can_move_in(dir) || !check_ray(track_ray, dir):
@@ -79,10 +92,8 @@ func slide(dir):
 	is_sliding = true
 	if ![State.LEFT, State.RIGHT, State.UP, State.DOWN].has(state):
 		state = State.TRANSITION
-		anim.play("transition")
 		await anim.animation_finished
 	if states[dir] != state:
-		anim.play(dir)
 		state = states[dir]
 	
 	await move(dir, true)
@@ -92,10 +103,8 @@ func stop_slide():
 	if ![State.LEFT, State.RIGHT, State.UP, State.DOWN].has(state):
 		return
 	state = State.RTRANSITION
-	anim.play("r_transition")
 	await anim.animation_finished
 	
-	anim.play("stale")
 	state = State.STALE
 
 func can_move_in(dir) -> bool:

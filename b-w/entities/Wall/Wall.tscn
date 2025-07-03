@@ -24,6 +24,7 @@ polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 size = Vector2(64, 64)
 
 [node name="Wall" type="StaticBody2D"]
+scale = Vector2(1.02, 1.02)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)

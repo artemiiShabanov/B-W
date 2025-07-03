@@ -24,7 +24,6 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if was_eaten:
 		return
-	#print(body.name)
 	sound.play()
 	if body.name == "Player":
 		eaten.emit(type)

@@ -22,17 +22,12 @@ var columns_layouts = [
 	[Vector2(4, 4), Vector2(1, 4), Vector2(3, 2), Vector2(2, 2)]
 ]
 
-#var heart_image = load("res://assets/h.jpg")
-
 var timer_progression = 0.1
 
 var max_score: int
 var current_score = 0
 var health = 3
 var max_health = 3
-
-#var is_slow_mo = false
-#var clow_mo_timer
 
 var coin_scene = preload("res://entities/Coin/Coin.tscn")
 var track_scene = preload("res://entities/Track/Track.tscn")
@@ -54,7 +49,6 @@ var rng = RandomNumberGenerator.new()
 @onready var palyer_light_2 = $Player/PointLight2D2
 @onready var pause_menu = $CanvasLayer/PauseMenu
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	max_score = SaveLoad.load_highscore()
 	_update_lives()
@@ -62,7 +56,7 @@ func _ready() -> void:
 	_generate_columns()
 	_create_coin()
 	bgMusic.play()
-	update_score()
+	_update_score()
 	grain.z_index = 1000
 	
 func _process(delta):
@@ -140,12 +134,12 @@ func _on_coin_eaten(value: int) -> void:
 		if current_score > max_score:
 			max_score = current_score
 			SaveLoad.save_highscore(max_score)
-		update_score()
+		_update_score()
 	_create_coin()
 	timer.wait_time = timer.wait_time - timer_progression
 	timer.start()
 
-func update_score() -> void:
+func _update_score() -> void:
 	scoreLabel.text = str(current_score)
 	hScoreLabel.text = str(max_score)
 
@@ -159,7 +153,6 @@ func _update_lives() -> void:
 	candle2.visible = health > 1
 	candle3.visible = health > 2
 
-
 func _on_player_will_move(from_position: Variant) -> void:
 	for node in get_children():
 		if node is Track && node.position == from_position:
@@ -168,14 +161,8 @@ func _on_player_will_move(from_position: Variant) -> void:
 	track.position = from_position
 	add_child(track)
 
-
 func _on_bg_music_finished() -> void:
 	bgMusic.play()
-
-
-func _on_speed_state_changed_paused_state(paused: bool) -> void:
-	get_tree().paused = paused
-
 
 func _on_pause_button_pressed() -> void:
 	pause_menu.pause()
