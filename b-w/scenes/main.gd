@@ -7,9 +7,9 @@ var prev_c = 0
 var min_diff = 3
 var grid_size = 6
 var cell_size = 64
-var rare_chance = 0.05
-var life_chance = 0.05
-var uncommon_chance = 0.1
+var uncommon_chance = 0.07
+var rare_chance = 0.03
+var life_chance = 0.03
 
 var restricted_pos = []
 
@@ -21,8 +21,6 @@ var columns_layouts = [
 	[Vector2(4, 1), Vector2(1, 1), Vector2(2, 3), Vector2(3, 3)],
 	[Vector2(4, 4), Vector2(1, 4), Vector2(3, 2), Vector2(2, 2)]
 ]
-
-var timer_progression = 0.1
 
 var max_score: int
 var current_score = 0
@@ -125,7 +123,7 @@ func pos(c, r) -> Vector2:
 	return Vector2(x, y)
 
 func _on_coin_eaten(value: int) -> void:
-	bgMusic.volume_db = 0
+	Input.vibrate_handheld(100) 
 	if value == -1:
 		health += 1
 		_update_lives()
@@ -136,7 +134,7 @@ func _on_coin_eaten(value: int) -> void:
 			SaveLoad.save_highscore(max_score)
 		_update_score()
 	_create_coin()
-	timer.wait_time = timer.wait_time - timer_progression
+	timer.wait_time = _life_time(current_score)
 	timer.start()
 
 func _update_score() -> void:
@@ -145,8 +143,12 @@ func _update_score() -> void:
 
 func _on_timer_timeout() -> void:
 	health -= 1
-	bgMusic.volume_db = -15
 	_update_lives()
+	if health <= 0:
+		Input.vibrate_handheld(1000)
+		get_tree().reload_current_scene()
+	else:
+		Input.vibrate_handheld(500)
 
 func _update_lives() -> void:
 	candle1.visible = health > 0
@@ -158,6 +160,7 @@ func _on_player_will_move(from_position: Variant) -> void:
 		if node is Track && node.position == from_position:
 			node.queue_free()
 	var track = track_scene.instantiate()
+	track.timeout = _track_time(current_score)
 	track.position = from_position
 	add_child(track)
 
@@ -166,3 +169,48 @@ func _on_bg_music_finished() -> void:
 
 func _on_pause_button_pressed() -> void:
 	pause_menu.pause()
+
+func _track_time(score: int) -> float:
+	if score > 100:
+		return 5
+	if score > 50:
+		return 5.25
+	if score > 30:
+		return 5.5
+	if score > 20:
+		return 6
+	return 7
+
+
+func _life_time(score: int) -> float:
+	var checkpoints = [
+		Vector2(0, 1000000000),
+		Vector2(1, 5),
+		Vector2(20, 4),
+		Vector2(50, 3.5),
+		Vector2(90, 2.7),
+		Vector2(140, 2.1),
+		Vector2(200, 1.4),
+		Vector2(300, 1.2)
+	]
+	
+	var prev: Vector2
+	for checkpoint in checkpoints:
+		var upScore = checkpoint.x
+		var time = checkpoint.y
+		
+		if score <= upScore:
+			if prev != null:
+				var prevScore = prev.x
+				var prevTime = prev.y
+				
+				var multiplicator = 1 - (score - prevScore) / (upScore - prevScore)
+				if multiplicator == 0:
+					return time
+				else:
+					return time + (prevTime - time) * multiplicator
+			else:
+				return time
+		prev = checkpoint
+	
+	return 1

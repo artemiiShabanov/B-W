@@ -183,7 +183,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"r_transition",
-"speed": 30.0
+"speed": 90.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -240,7 +240,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"transition",
-"speed": 30.0
+"speed": 90.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -269,7 +269,7 @@ script = ExtResource("1_xhfnw")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_8g4oa")
-animation = &"transition"
+animation = &"r_transition"
 autoplay = "stale"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
