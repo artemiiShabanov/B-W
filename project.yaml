@@ -1,0 +1,8 @@
+# Метаданные для gamedev-hub. Хаб читает этот файл из main и показывает на дашборде.
+# phase: prototype | prototype | vertical-slice | content | polish | released | paused | archived
+name: B&W
+tagline: Ремейк Cube-Squared для ПК в стилистике зернистого чёрно-белого кино
+engine: Godot 4.4
+phase: prototype
+tracker: github-issues
+next: ""            # одна строка: что сейчас главное
